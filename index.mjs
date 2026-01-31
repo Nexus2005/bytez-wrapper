@@ -11,6 +11,7 @@ app.use(express.json());
 
 const sdk = new Bytez(process.env.BYTEZ_KEY);
 
+// Image generation endpoint
 app.post("/generate-image", async (req, res) => {
   try {
     const { prompt } = req.body;
@@ -26,12 +27,41 @@ app.post("/generate-image", async (req, res) => {
       return res.status(500).json(error);
     }
 
-    res.json(output);
+    res.json({
+      image_url: output
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
-app.listen(process.env.PORT, () => {
-  console.log(`Bytez wrapper running on port ${process.env.PORT}`);
+// Video generation endpoint
+app.post("/generate-video", async (req, res) => {
+  try {
+    const { prompt } = req.body;
+
+    if (!prompt) {
+      return res.status(400).json({ error: "prompt is required" });
+    }
+
+    const model = sdk.model("ali-vilab/text-to-video-ms-1.7b");
+    const { error, output } = await model.run(prompt);
+
+    if (error) {
+      return res.status(500).json(error);
+    }
+
+    res.json({
+      video_url: output
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Add port fallback for Render stability
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Bytez wrapper running on port ${PORT}`);
 });
