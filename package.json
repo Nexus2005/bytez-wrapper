@@ -1,20 +1,19 @@
 {
   "name": "bytez-wrapper",
   "version": "1.0.0",
+  "description": "Bytez SDK wrapper for HTTP access (used by n8n)",
   "type": "module",
-  "description": "",
-  "main": "index.js",
+  "main": "index.mjs",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.mjs"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
+  "engines": {
+    "node": ">=18"
+  },
   "dependencies": {
-    "bytez.js": "^3.0.0",
-    "cors": "^2.8.6",
+    "bytez.js": "^1.0.0",
+    "cors": "^2.8.5",
     "dotenv": "^17.2.3",
-    "express": "^5.2.1"
+    "express": "^4.19.2"
   }
 }
